@@ -30,6 +30,7 @@ file, it reads and processes the file; if the argument is a string on the
 command line, it processes the string instead.  It relies on the ftfy package
 to clean up the text and CLD2 (a probabilistic language detector) to analyze
 the language of the text.'''
+    # Process arguments
     if version:
         print('{} version {}'.format(codeornot.__version__.__title__,
                                      codeornot.__version__.__version__))
@@ -46,17 +47,19 @@ the language of the text.'''
             text = f.read()
     elif os.path.exists(os.path.join(os.getcwd(), input)):
         input_type = 'file'
-        with open(os.path.join(os.getcwd(), input)) as f:        
+        with open(os.path.join(os.getcwd(), input)) as f:
             text = f.read()
     else:
         input_type = 'string'
         text = input
-    
+
+    # Test input length and return a meaningful message if it's too short.
     if len(text) < language.min_length():
         print('Text needs to be at least {} characters long for analysis'
               .format(language.min_length()))
         sys.exit(1)
 
+    # Analyze the text and return the results.
     lang = language.majority_language(text, enforce_length=True)
     if lang and len(lang) > 0:
         print('Best guess at language used in {}: {} ({})'
