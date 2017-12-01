@@ -305,7 +305,7 @@ _language_codes = {
     'zu': 'Zulu'
 }
 
-def code_to_name(code):
+def iso639_to_name(code):
     if code in _language_codes:
         return _language_codes[code]
     else:

@@ -63,7 +63,7 @@ the language of the text.'''
     lang = language.majority_language(text, enforce_length=True)
     if lang and len(lang) > 0:
         print('Best guess at language used in {}: {} ({})'
-              .format(input_type, lang, language.code_to_name(lang)))
+              .format(input_type, lang, language.iso639_to_name(lang)))
     if debug:
         import ipdb; ipdb.set_trace()
 
