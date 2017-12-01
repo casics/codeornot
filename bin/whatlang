@@ -15,7 +15,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import codeornot
-from codeornot import language
+from codeornot import textcheck
 
 @plac.annotations(
     debug    = ('drop into ipdb after parsing', 'flag', 'd'),
@@ -54,16 +54,16 @@ the language of the text.'''
         text = input
 
     # Test input length and return a meaningful message if it's too short.
-    if len(text) < language.min_length():
+    if len(text) < textcheck.min_length():
         print('Text needs to be at least {} characters long for analysis'
-              .format(language.min_length()))
+              .format(textcheck.min_length()))
         sys.exit(1)
 
     # Analyze the text and return the results.
-    lang = language.majority_language(text, enforce_length=True)
+    lang = textcheck.majority_language(text, enforce_length=True)
     if lang and len(lang) > 0:
         print('Best guess at language used in {}: {} ({})'
-              .format(input_type, lang, language.iso639_to_name(lang)))
+              .format(input_type, lang, textcheck.iso639_to_name(lang)))
     if debug:
         import ipdb; ipdb.set_trace()
 

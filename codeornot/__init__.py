@@ -7,4 +7,4 @@
 # =============================================================================
 
 from .__version__ import *
-from .language import human_language, majority_language
+from .textcheck import human_language, majority_language
