@@ -8,4 +8,4 @@
 
 from .__version__ import *
 from .textcheck import human_language, majority_language
-from .codecheck import known_code_language, code_filename, noncode_filename
+from .codecheck import code_language, code_filename, noncode_filename
