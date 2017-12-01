@@ -16,7 +16,11 @@ In performing source code repository analysis for classification tasks, a basic 
 
 Some cases are quite easy to decide: if a collection of files contains even one `.c` file, it can be reasonably assumed to contain C code, and thus the answer returned by CodeOrNot will be "code".  Some other cases are more difficult.  For example, files may contain code but not have file name extensions, and so determining whether they contain code or not requires examining the content.  Other examples are gray zones: should a repository containining LaTeX files and a single `Makefile` be considered to contain code?  After all, a `Makefile` can contain code&mdash;does that count?  (The position taken by CodeOrNot is no, a single `Makefile` is not enough to consider the repository to be a code repository.)
 
-CodeOrNot also provides some simple utilities useful in other contexts, such as `majority_language()`, which takes a list of text strings and reports the most likely human language in which the text strings are written.  It does this by using a combination of [ftfy](https://github.com/LuminosoInsight/python-ftfy),  [cld2](https://github.com/CLD2Owners/cld2), and a majority vote.
+CodeOrNot also provides some simple utilities modules that may be useful in other contexts:
+
+* The `textcheck` module provides functions such as `majority_language()`, which takes a list of text strings and reports the most likely human language in which the text strings are written.  (It does this by using a combination of [ftfy](https://github.com/LuminosoInsight/python-ftfy),  [cld2](https://github.com/CLD2Owners/cld2), and a majority vote.)
+
+* The `codecheck` module provides functions such as `code_filename()` and `noncode_filename`, which can be used to infer whether a file is likely to be code or noncode based on its name.  These work by using built-in lists of file name rules.
 
 ⁇ Getting help and support
 --------------------------
