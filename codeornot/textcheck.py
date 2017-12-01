@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-language: Heuristically detect the human language of a text string
+textcheck: Heuristically detect the human language of a text string
 
 This module provides functions to guess at the human language in which a
 given input string or list of strings is written in.
