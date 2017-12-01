@@ -821,16 +821,16 @@ _noncode_file_extensions = [
 # Main entry points.
 # .............................................................................
 
-def known_code_language(lang):
+def code_language(lang):
     lang = lang.lower()
     return _lang_names_nocase[lang] if lang in _lang_names_nocase else False
 
 
-def is_code_filename(file):
+def code_filename(file):
     return _has_code_extension(file) or _has_code_name(file)
 
 
-def is_noncode_filename(file):
+def noncode_filename(file):
     return _has_noncode_extension(file) or _has_noncode_name(file)
 
 
