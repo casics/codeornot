@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+# =============================================================================
+# @file    whatlang
+# @brief   Utility to report the most likely human language used in the input
+# @author  Michael Hucka <mhucka@caltech.edu>
+# @license Please see the file named LICENSE in the project directory
+# @website https://github.com/casics/codeornot
+# =============================================================================
+
+import os
+import plac
+import sys
+
+# Allow this program to be executed directly from the 'bin' directory.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+import codeornot
+from codeornot import language
+
+@plac.annotations(
+    debug    = ('drop into ipdb after parsing', 'flag', 'd'),
+    version  = ('print version info and exit',  'flag', 'v'),
+    input    = 'file or string to test'
+)
+
+def main(debug=False, version=False, input=None):
+    '''`whatlang` is a simple utility to report the human language used in
+the text of a file or a string.  If the argument given can be interpreted as a 
+file, it reads and processes the file; if the argument is a string on the 
+command line, it processes the string instead.  It relies on the ftfy package
+to clean up the text and CLD2 (a probabilistic language detector) to analyze
+the language of the text.'''
+    if version:
+        print('{} version {}'.format(codeornot.__version__.__title__,
+                                     codeornot.__version__.__version__))
+        print('Author: {}'.format(codeornot.__version__.__author__))
+        print('URL: {}'.format(codeornot.__version__.__url__))
+        print('License: {}'.format(codeornot.__version__.__license__))
+        sys.exit()
+    if len(input) < 1:
+        raise SystemExit('Need a file or string as input argument')
+
+    if os.path.exists(input):
+        input_type = 'file'
+        with open(input) as f:
+            text = f.read()
+    elif os.path.exists(os.path.join(os.getcwd(), input)):
+        input_type = 'file'
+        with open(os.path.join(os.getcwd(), input)) as f:        
+            text = f.read()
+    else:
+        input_type = 'string'
+        text = input
+    
+    if len(text) < language.min_length():
+        print('Text needs to be at least {} characters long for analysis'
+              .format(language.min_length()))
+        sys.exit(1)
+
+    lang = language.majority_language(text, enforce_length=True)
+    if lang and len(lang) > 0:
+        print('Best guess at language used in {}: {} ({})'
+              .format(input_type, lang, language.code_to_name(lang)))
+    if debug:
+        import ipdb; ipdb.set_trace()
+
+if __name__ == '__main__':
+    plac.call(main)
+
+
+# For Emacs users
+# ......................................................................
+# Local Variables:
+# mode: python
+# python-indent-offset: 4
+# End:
